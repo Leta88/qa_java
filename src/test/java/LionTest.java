@@ -1,7 +1,9 @@
 import com.example.Feline;
 import com.example.Lion;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -27,14 +29,17 @@ public class LionTest {
         assertEquals(lion.getKittens(), actualNumberKittens);
     }
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Test
     public void checkTextLionCreationException() throws Exception {
+
+        thrown.expect(Exception.class);
+        thrown.expectMessage("Используйте допустимые значения пола животного - самец или самка");
         String wrongSex = "Инопланетянин";
-        try {
-            Lion lion = new Lion(felineMock, wrongSex);
-        } catch (Exception exception) {
-            assertEquals("Используйте допустимые значения пола животного - самец или самка", exception.getMessage());
-        }
+
+        Lion lion = new Lion(felineMock, wrongSex);
     }
 
     @Test
